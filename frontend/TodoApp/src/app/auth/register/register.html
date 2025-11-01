@@ -1,0 +1,51 @@
+<!-- From Uiverse.io by Rohankumar620 -->
+<div class="container">
+  <input id="signup_toggle" type="checkbox" />
+  <form class="form">
+    <div class="form_front">
+      <div class="form_details">Register</div>
+      <input
+        type="text"
+        class="form-control input"
+        [(ngModel)]="username"
+        placeholder="Enter your username"
+        name="username"
+      />
+      <input
+        type="email"
+        class="form-control input"
+        [(ngModel)]="email"
+        placeholder="Enter your email"
+        name="email"
+      />
+      <input
+        type="password"
+        class="form-control input"
+        [(ngModel)]="password"
+        placeholder="Enter your password"
+        name="password"
+      />
+      <button class="btn btn-primary mt-3 w-100" (click)="register()">
+        Register
+      </button>
+      <span class="switch"
+        >Have Account Yet?
+        <label routerLink="/"> Sign In</label>
+      </span>
+    </div>
+    <div class="form_back">
+      <div class="form_details">SignUp</div>
+      <input type="text" class="input" placeholder="Firstname" />
+      <input type="text" class="input" placeholder="Username" />
+      <input type="text" class="input" placeholder="Password" />
+      <input type="text" class="input" placeholder="Confirm Password" />
+      <button class="btn">Signup</button>
+      <span class="switch"
+        >Already have an account?
+        <label routerLink="/"> Sign In </label>
+      </span>
+    </div>
+
+    <p class="mt-3 text-danger" *ngIf="message">{{ message }}</p>
+  </form>
+</div>
