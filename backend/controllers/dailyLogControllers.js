@@ -26,8 +26,20 @@ const updateDailyLog = async (req, res) => {
   }
 };
 
+const getDailyLogByUserId = async (req, res) => {
+  try {
+    const logs = await DailyLog.find({ userId: req.params.userId }).sort({
+      date: -1,
+    });
+    res.json(logs);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 module.exports = {
   getDailyLogs,
   createDailyLog,
   updateDailyLog,
+  getDailyLogByUserId,
 };

@@ -27,9 +27,10 @@ export class LoginComponent {
     this.api.logUser({ email: this.email, password: this.password }).subscribe({
       next: (res) => {
         this.message = res.message;
-        localStorage.setItem("token", res.accessToken);
+        localStorage.setItem("token", res.token);
         alert("Login Successful");
-        console.log("Token:", res.accessToken);
+        console.log("Token:", res.token);
+        this.router.navigateByUrl("/dashboard");
       },
       error: (err) => {
         this.message = err.error.message;

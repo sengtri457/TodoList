@@ -1,0 +1,145 @@
+<div class="dashboard-wrapper">
+  <!-- Hero Stats Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Daily Activity Dashboard</h1>
+      <p class="hero-subtitle">Track your productivity and performance</p>
+    </div>
+  </div>
+
+  <!-- Category Cards Grid -->
+  <div class="categories-grid">
+    <div
+      class="category-card"
+      *ngFor="let activity of activities; let i = index"
+      [style.animation-delay.ms]="i * 100"
+    >
+      <div class="card-glow"></div>
+      <div class="card-content">
+        <div class="card-header">
+          <div class="icon-wrapper" [class]="'icon-color-' + (i % 5)">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 6v6l4 2"></path>
+            </svg>
+          </div>
+          <h3 class="card-title">{{ activity.categoryId.name }}</h3>
+        </div>
+        <p class="card-description">{{ activity.categoryId.description }}</p>
+        <div class="card-stats">
+          <div class="stat-item">
+            <span class="stat-label">Activities</span>
+            <span class="stat-value">{{i}}</span>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-label">Rating</span>
+              <div class="rating-badge">
+                <span class="star">⭐</span>
+                <span class="stat-value"
+                  >{{ activity.rating | number:'1.1-1' }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div
+            class="progress-fill"
+            [style.width.%]="(activity.avgRating / 5) * 100"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    <div class="section-header">
+      <h2 class="section-title">Analytics Overview</h2>
+      <div class="section-subtitle">Visualize your activity patterns</div>
+    </div>
+
+    <div class="charts-grid">
+      <!-- Bar Chart Card -->
+      <div class="chart-card bar-chart-card">
+        <div class="chart-card-header">
+          <div class="chart-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="12" y1="20" x2="12" y2="10"></line>
+              <line x1="18" y1="20" x2="18" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="16"></line>
+            </svg>
+          </div>
+          <div>
+            <h3 class="chart-title">Average Ratings</h3>
+            <p class="chart-subtitle">Performance by category</p>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas
+            baseChart
+            [data]="barChartData"
+            [options]="barChartOptions"
+            chartType="bar"
+          >
+          </canvas>
+        </div>
+      </div>
+
+      <!-- Pie Chart Card -->
+      <div class="chart-card pie-chart-card">
+        <div class="chart-card-header">
+          <div class="chart-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+              <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="chart-title">Duration Distribution</h3>
+            <p class="chart-subtitle">Time allocation breakdown</p>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas
+            baseChart
+            [data]="pieChartData"
+            [options]="pieChartOptions"
+            chartType="pie"
+          >
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

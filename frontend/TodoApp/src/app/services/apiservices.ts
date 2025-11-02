@@ -12,14 +12,14 @@ export class Apiservices {
 
   constructor(private http: HttpClient) {}
 
-  getTodos(url: String): Observable<UserModels> {
+  getTodos(url: String): Observable<any> {
     const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    return this.http.get<UserModels>(this.apiUrl + url, { headers });
+    return this.http.get<any>(this.apiUrl + url, { headers });
   }
-  createTodo(url: string, todo: UserModels): Observable<any> {
+  createTodo(url: string, todo: any): Observable<any> {
     const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,

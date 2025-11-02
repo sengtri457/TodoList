@@ -2,11 +2,23 @@ import { Routes } from "@angular/router";
 import { Categories } from "./components/categories/categories";
 import { LoginComponent } from "./auth/login-component/login-component";
 import { Register } from "./auth/register/register";
+import { Dashboard } from "./components/dashboard/dashboard";
+import { Navbar } from "./components/navbar/navbar";
+import { Activities } from "./components/activities/activities";
 
 export const routes: Routes = [
   {
     path: "",
+    pathMatch: "full",
+    redirectTo: "/activity",
+  },
+  {
+    path: "login",
     component: LoginComponent,
+  },
+  {
+    path: "dashboard",
+    component: Dashboard,
   },
   {
     path: "category",
@@ -15,5 +27,13 @@ export const routes: Routes = [
   {
     path: "register",
     component: Register,
+  },
+  {
+    path: "navbar",
+    component: Navbar,
+  },
+  {
+    path: "activity",
+    component: Activities,
   },
 ];
