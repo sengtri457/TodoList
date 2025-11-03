@@ -1,8 +1,7 @@
 export interface UserModels {
-  _id: string;
-  username: string;
-  email: string;
-  password: string;
+  username?: string;
+  email?: string;
+  password?: string;
 }
 
 export interface Root {

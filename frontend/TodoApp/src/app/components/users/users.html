@@ -1,44 +1,40 @@
 <div class="container">
   <!--addUsers-->
-  <div class="row">
-    <div class="col-md-6">
-      <form (ngSubmit)="addUser()">
-        <div class="form-group">
-          <label for="username">Username:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="username"
-            [(ngModel)]="newUser.username"
-            name="username"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            [(ngModel)]="newUser.email"
-            name="email"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            [(ngModel)]="newUser.password"
-            name="password"
-            required
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-      </form>
-    </div>
+  <div class="d-flex justify-content-between mb-2">
+    <h3>Users</h3>
+    <button class="btn btn-primary" (click)="openNew()">New Users</button>
+  </div>
+  <div *ngIf="form" class="card p-3 mt-3">
+    <h5>{{form.id ? 'Edit' : 'New'}} Machine</h5>
+    <form (submit)="addUser($event)">
+      <input
+        type="text"
+        class="form-control mb-2"
+        placeholder="Name"
+        [(ngModel)]="form.username"
+        name="name"
+      />
+      <input
+        type="email"
+        class="form-control mb-2"
+        placeholder="Code"
+        [(ngModel)]="form.email"
+        name="code"
+      />
+      <input
+        type="password"
+        class="form-control mb-2"
+        placeholder="password"
+        [(ngModel)]="form.password"
+        name="password"
+      />
+      <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-secondary" type="button" (click)="cancel()">
+          Cancel
+        </button>
+        <button class="btn btn-success" type="submit">Save</button>
+      </div>
+    </form>
   </div>
 
   <table class="table table-hover custom-table table-striped">

@@ -11,13 +11,13 @@ import { UserModels } from "../../models/typeModels";
   styleUrl: "./users.css",
 })
 export class Users implements OnInit {
-  usersList: UserModels[] = [];
+  usersList: any[] = [];
   newUser: UserModels = {
-    _id: "",
     username: "",
     email: "",
     password: "",
   };
+  form: any = null;
 
   constructor(private api: Apiservices) {}
 
@@ -35,48 +35,38 @@ export class Users implements OnInit {
       },
     });
   }
-  addUser() {
+  openNew() {
+    this.form = {
+      username: "",
+      email: "",
+      password: "",
+    };
+  }
+  addUser(event: any) {
+    event.preventDefault();
     if (!this.newUser) {
       return;
     }
-    if (this.newUser._id) {
-      this.api
-        .updateUser(`/users/${this.newUser._id}`, this.newUser)
-        .subscribe({
-          next: (res) => {
-            this.usersList = this.usersList.map((user) => {
-              if (user._id === this.newUser._id) {
-                return res;
-              }
-              return user;
-            });
-            this.newUser = {
-              _id: "",
-              username: "",
-              email: "",
-              password: "",
-            };
-          },
-          error: (err) => {
-            console.log("Error updating user: " + err);
-          },
-        });
-    } else {
-      this.api.createTodo("/users", this.newUser).subscribe({
+    if (this.form._id) {
+      this.api.updateUser(`/users/${this.form._id}`, this.form).subscribe({
         next: (res) => {
-          this.usersList.push(res);
-          this.newUser = {
-            _id: "",
-            username: "",
-            email: "",
-            password: "",
-          };
+          this.getUser();
+          this.form = null;
         },
         error: (err) => {
-          console.log("Error adding user: " + err);
+          console.log("Error updating user: " + err);
         },
       });
     }
+    this.api.createTodo("/users", this.form).subscribe({
+      next: (res) => {
+        this.form = null;
+        this.getUser();
+      },
+      error: (err) => {
+        console.log("Error adding user: " + err);
+      },
+    });
   }
   deleteUser(id: string) {
     this.api.deleteTodos(`/users/${id}`).subscribe({
@@ -89,6 +79,24 @@ export class Users implements OnInit {
     });
   }
   editUser(order: any) {
-    this.newUser = order;
+    this.form = { ...order };
+  }
+  cancel() {
+    this.form = null;
+  }
+  createUser() {
+    this.api.createTodo("/users", this.newUser).subscribe({
+      next: (res) => {
+        this.usersList.push(res);
+        this.newUser = {
+          username: "",
+          email: "",
+          password: "",
+        };
+      },
+      error: (err) => {
+        console.log("Error adding user: " + err);
+      },
+    });
   }
 }

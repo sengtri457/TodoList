@@ -7,6 +7,7 @@ import { Navbar } from "./components/navbar/navbar";
 import { Activities } from "./components/activities/activities";
 import { ActivityList } from "./components/activity-list/activity-list";
 import { Users } from "./components/users/users";
+import { Category } from "./components/category/category";
 
 export const routes: Routes = [
   {
@@ -45,5 +46,9 @@ export const routes: Routes = [
   {
     path: "users",
     component: Users,
+  },
+  {
+    path: "categories",
+    component: Category,
   },
 ];
