@@ -1,16 +1,39 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+<div class="blur-overlay" *ngIf="isActives" (click)="isActives = false">
+  <div class="row mt-2 mx-2">
+    <div class="col-10"></div>
+    <div class="col-2" style="text-align: right">
+      <button
+        class="btn btn-outline-light me-2 rounded-circle"
+        (click)="isActives = false"
+      >
+        <i class="bi bi-x-circle"></i>
+      </button>
+    </div>
+  </div>
+</div>
+<nav
+  class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm z-5 position-relative"
+>
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" routerLink="/">ActivityTrack</a>
     <div class="d-flex align-items-center">
-      <button class="btn btn-outline-light me-2" routerLink="/add">
+      <button
+        class="btn btn-outline-light me-2"
+        routerLink="/add"
+        (click)="toggleNav()"
+      >
         + Add
       </button>
-      <img
-        src="assets/profile.png"
-        alt="user"
-        width="35"
-        class="rounded-circle"
-      />
     </div>
+  </div>
+
+  <div class="wrapper-nav overflow-hidden" [ngClass]="{ active: isActives }">
+    <ul
+      class="d-flex justify-content-center align-items-center flex-wrap gap-4"
+    >
+      <li class="nav-link"><a routerLink="/users">User</a></li>
+      <li class="nav-link"><a routerLink="/Loan">Category</a></li>
+      <li class="nav-link"><a routerLink="/Loan">DailyLog</a></li>
+    </ul>
   </div>
 </nav>

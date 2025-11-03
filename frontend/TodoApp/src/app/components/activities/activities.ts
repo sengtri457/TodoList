@@ -3,9 +3,11 @@ import { Apiservices } from "../../services/apiservices";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import Swal from "sweetalert2";
+import { ActivityList } from "../activity-list/activity-list";
+import { Navbar } from "../navbar/navbar";
 @Component({
   selector: "app-activities",
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ActivityList, Navbar],
   templateUrl: "./activities.html",
   styleUrl: "./activities.css",
 })
@@ -40,9 +42,14 @@ export class Activities implements OnInit {
   };
 
   constructor(private api: Apiservices) {}
+  isLoading = true;
 
   ngOnInit() {
     this.loadUsers();
+    // Simulate loading data for 1 second
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   }
 
   loadUsers() {

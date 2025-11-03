@@ -26,8 +26,28 @@ const getUserById = async (req, res) => {
   }
 };
 
+const deletedUser = async (req, res) => {
+  try {
+    const users = await User.findByIdAndDelete(req.params.id);
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+const updateUser = async (req, res) => {
+  try {
+    const users = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 module.exports = {
   AddUser,
   getUser,
   getUserById,
+  deletedUser,
+  updateUser,
 };

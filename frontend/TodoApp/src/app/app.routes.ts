@@ -5,6 +5,8 @@ import { Register } from "./auth/register/register";
 import { Dashboard } from "./components/dashboard/dashboard";
 import { Navbar } from "./components/navbar/navbar";
 import { Activities } from "./components/activities/activities";
+import { ActivityList } from "./components/activity-list/activity-list";
+import { Users } from "./components/users/users";
 
 export const routes: Routes = [
   {
@@ -35,5 +37,13 @@ export const routes: Routes = [
   {
     path: "activity",
     component: Activities,
+  },
+  {
+    path: "activityList",
+    component: ActivityList,
+  },
+  {
+    path: "users",
+    component: Users,
   },
 ];

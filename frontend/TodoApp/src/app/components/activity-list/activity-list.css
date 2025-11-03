@@ -1,0 +1,61 @@
+.custom-table {
+  /* border-radius: 10px; */
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.table {
+  background: #6610f2 !important;
+}
+.custom-table thead {
+  background: linear-gradient(90deg, #007bff, #6610f2);
+  color: #fff;
+}
+
+.custom-table th {
+  font-weight: 600;
+  padding: 14px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.custom-table td {
+  vertical-align: middle;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #f8f9fa;
+  transition: background 0.3s ease;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+.skeleton-text {
+  height: 12px;
+}
+.skeleton-badge {
+  width: 40px;
+  height: 18px;
+  border-radius: 12px;
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Optional: Make it look better in dark mode */
+@media (prefers-color-scheme: dark) {
+  .skeleton {
+    background: linear-gradient(90deg, #3c3c3c 25%, #505050 50%, #3c3c3c 75%);
+  }
+}

@@ -1,4 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-  background-color: black;
+  background: #cccaca;
+  background: linear-gradient(
+    138deg,
+    rgba(204, 202, 202, 0.74) 0%,
+    rgba(230, 230, 230, 1) 18%,
+    rgba(255, 255, 255, 1) 29%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+:root {
+  --bs-table-bg: gray;
 }

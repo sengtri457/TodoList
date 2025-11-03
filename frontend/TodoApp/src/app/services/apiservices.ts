@@ -26,6 +26,14 @@ export class Apiservices {
     });
     return this.http.post<UserModels>(this.apiUrl + url, todo, { headers });
   }
+
+  deleteTodos(url: string): Observable<any> {
+    return this.http.delete<any>(this.apiUrl + `${url}`);
+  }
+  updateUser(url: string, todo: any): Observable<any> {
+    return this.http.put<UserModels>(this.apiUrl + url, todo);
+  }
+
   logUser(todo: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/auth/login`, todo);
   }

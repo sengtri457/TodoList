@@ -1,0 +1,72 @@
+<div class="container">
+  <!--addUsers-->
+  <div class="row">
+    <div class="col-md-6">
+      <form (ngSubmit)="addUser()">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            [(ngModel)]="newUser.username"
+            name="username"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            [(ngModel)]="newUser.email"
+            name="email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            [(ngModel)]="newUser.password"
+            name="password"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <table class="table table-hover custom-table table-striped">
+    <thead>
+      <tr>
+        <th>No#</th>
+        <th>username</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (order of usersList; track $index) {
+      <tr>
+        <td><strong>{{ $index + 1 }}</strong></td>
+        <td>{{ order.username }}</td>
+        <td>{{ order.email }}</td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteUser(order._id)">
+            Delete
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="editUser(order)">
+            Edit
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

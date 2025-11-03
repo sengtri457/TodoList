@@ -1,1 +1,88 @@
-<p>activity-list works!</p>
+@defer(on timer(2000)){
+<div class="container">
+  <table class="table table-hover custom-table table-striped">
+    <thead>
+      <tr>
+        <th>List#</th>
+        <th>TopWins</th>
+        <th>Title</th>
+        <th>Mood</th>
+        <th>Rating</th>
+        <th>Duration</th>
+        <th class="text-end">Start</th>
+        <th class="text-end">End</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of activitiesList; let index = index">
+        <td><strong>{{ index + 1 }}</strong></td>
+        <td>{{ order.dailyLogId?.topWins }}</td>
+        <td>{{ order.title }}</td>
+        <td>{{ order.dailyLogId?.mood }}</td>
+        <td>
+          <span
+            class="badge"
+            [ngClass]="{
+                            'bg-success': order.energy === 'High',
+                            'bg-warning text-dark': order.energy === 'Low',
+                          }"
+          >
+            {{ order.rating}}
+          </span>
+        </td>
+        <td>{{ order.duration}} mins</td>
+        <td>{{ order.startTime}}</td>
+        <td>{{ order.endTime}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+}@placeholder{
+<!-- Skeleton Table -->
+<div class="container">
+  <table class="table table-hover custom-table table-striped">
+    <thead>
+      <tr>
+        <th>List#</th>
+        <th>TopWins</th>
+        <th>Title</th>
+        <th>Mood</th>
+        <th>Rating</th>
+        <th>Duration</th>
+        <th class="text-end">Start</th>
+        <th class="text-end">End</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let i of activitiesList">
+        <td>
+          <div class="skeleton skeleton-text w-25"></div>
+        </td>
+        <td>
+          <div class="skeleton skeleton-text w-50"></div>
+        </td>
+        <td>
+          <div class="skeleton skeleton-text w-75"></div>
+        </td>
+        <td>
+          <div class="skeleton skeleton-text w-50"></div>
+        </td>
+        <td>
+          <div class="skeleton skeleton-badge"></div>
+        </td>
+        <td>
+          <div class="skeleton skeleton-text w-50"></div>
+        </td>
+        <td class="text-end">
+          <div class="skeleton skeleton-text w-50 ms-auto"></div>
+        </td>
+        <td class="text-end">
+          <div class="skeleton skeleton-text w-50 ms-auto"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+}
