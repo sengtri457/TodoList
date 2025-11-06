@@ -8,6 +8,7 @@ import { Activities } from "./components/activities/activities";
 import { ActivityList } from "./components/activity-list/activity-list";
 import { Users } from "./components/users/users";
 import { Category } from "./components/category/category";
+import { Logs } from "./components/logs/logs";
 
 export const routes: Routes = [
   {
@@ -50,5 +51,9 @@ export const routes: Routes = [
   {
     path: "categories",
     component: Category,
+  },
+  {
+    path: "logs",
+    component: Logs,
   },
 ];

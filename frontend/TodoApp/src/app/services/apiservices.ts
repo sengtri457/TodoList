@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { environment } from "../enviroments/enviroment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { UserModels } from "../models/typeModels";
@@ -43,5 +43,10 @@ export class Apiservices {
     username: string;
   }): Observable<any> {
     return this.http.post(`${this.apiUrl}/auth/register`, todo);
+  }
+  sidebarOpen = true;
+
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
   }
 }

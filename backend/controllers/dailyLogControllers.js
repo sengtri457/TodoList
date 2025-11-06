@@ -37,9 +37,20 @@ const getDailyLogByUserId = async (req, res) => {
   }
 };
 
+const deletedDailyLogs = async (req, res) => {
+  try {
+    const dailylogs = await DailyLog.findByIdAndDelete(req.params.id);
+    res.json({ message: "All logs deleted successfully" });
+    res.status(202).json(dailylogs);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 module.exports = {
   getDailyLogs,
   createDailyLog,
   updateDailyLog,
   getDailyLogByUserId,
+  deletedDailyLogs,
 };

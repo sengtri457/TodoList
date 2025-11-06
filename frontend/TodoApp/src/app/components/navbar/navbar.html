@@ -12,10 +12,33 @@
   </div>
 </div>
 <nav
-  class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm z-5 position-relative"
+  class="navbar navbar-expand-lg navbar-dark shadow-sm z-5 position-relative"
 >
-  <div class="container-fluid">
-    <a class="navbar-brand fw-bold" routerLink="/">ActivityTrack</a>
+  <div class="container">
+    <button
+      class="btn btn-sm text-white toggle-btn round-none bg-none"
+      (click)="api.toggleSidebar()"
+    >
+      ☰
+    </button>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+      </ul>
+    </div>
     <div class="d-flex align-items-center">
       <button
         class="btn btn-outline-light me-2"
@@ -26,14 +49,16 @@
       </button>
     </div>
   </div>
-
-  <div class="wrapper-nav overflow-hidden" [ngClass]="{ active: isActives }">
-    <ul
-      class="d-flex justify-content-center align-items-center flex-wrap gap-4"
-    >
-      <li class="nav-link"><a routerLink="/users">User</a></li>
-      <li class="nav-link"><a routerLink="/Loan">Category</a></li>
-      <li class="nav-link"><a routerLink="/Loan">DailyLog</a></li>
-    </ul>
-  </div>
 </nav>
+<div
+  class="wrapper-nav overflow-hidden position-fixed"
+  [ngClass]="{ active: isActives }"
+>
+  <ul
+    class="d-flex r align-items-center flex-wrap gap-5 w-100 justify-content-center justify-content-lg-start"
+  >
+    <li class="nav-link"><a routerLink="/users">User</a></li>
+    <li class="nav-link"><a routerLink="/categories">Category</a></li>
+    <li class="nav-link"><a routerLink="/logs">DailyLog</a></li>
+  </ul>
+</div>

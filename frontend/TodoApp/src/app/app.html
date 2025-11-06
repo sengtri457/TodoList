@@ -1,1 +1,19 @@
-<router-outlet />
+<div class="layout">
+  <!-- Sidebar -->
+  <nav class="sidebar" [class.closed]="!api.sidebarOpen">
+    <div class="sidebar-header">
+      <h4>Admin</h4>
+    </div>
+    <ul class="menu">
+      <li routerLink="/dashboard" routerLinkActive="active">Dashboard</li>
+      <li routerLink="/activities" routerLinkActive="active">Activities</li>
+      <li routerLink="/users" routerLinkActive="active">Users</li>
+      <li routerLink="/settings" routerLinkActive="active">Settings</li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main">
+    <router-outlet></router-outlet>
+  </div>
+</div>

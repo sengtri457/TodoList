@@ -63,11 +63,17 @@ export class Activities implements OnInit {
         this.categories = res;
         this.step++;
       });
+    } else if (this.step === 1 && !this.selectedUser) {
+      Swal.fire("Please select a user");
+      return;
     }
 
     // Step 2: Choose Category → Daily Log Form
     else if (this.step === 2 && this.selectedCategory) {
       this.step++;
+    } else if (this.step === 2 && !this.selectedCategory) {
+      Swal.fire("Please select a category");
+      return;
     }
 
     // Step 3: Create Daily Log

@@ -84,19 +84,4 @@ export class Users implements OnInit {
   cancel() {
     this.form = null;
   }
-  createUser() {
-    this.api.createTodo("/users", this.newUser).subscribe({
-      next: (res) => {
-        this.usersList.push(res);
-        this.newUser = {
-          username: "",
-          email: "",
-          password: "",
-        };
-      },
-      error: (err) => {
-        console.log("Error adding user: " + err);
-      },
-    });
-  }
 }

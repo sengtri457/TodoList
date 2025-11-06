@@ -1,73 +1,75 @@
 <div class="container">
   <!--addUsers-->
-  <div class="row">
-    <div class="col-md-6">
-      <form (ngSubmit)="addCategory()">
-        <div class="form-group">
-          <label for="name">CategoryName:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="name"
-            [(ngModel)]="newCategory.name"
-            name="name"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="description">description:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="description"
-            [(ngModel)]="newCategory.description"
-            name="description"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="password">Color:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="color"
-            [(ngModel)]="newCategory.color"
-            name="color"
-            required
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-      </form>
-    </div>
+  <div class="d-flex justify-content-between mb-2">
+    <h3>Category</h3>
+    <button class="btn btn-primary" (click)="openForm()">New Category</button>
   </div>
-  <table class="table table-hover custom-table table-striped">
-    <thead>
-      <tr>
-        <th>No#</th>
-        <th>CategoryName</th>
-        <th>Description</th>
-        <th>Color</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (order of categoryList; track $index) {
-      <tr>
-        <td><strong>{{ $index + 1 }}</strong></td>
-        <td>{{ order.name }}</td>
-        <td>{{ order.description }}</td>
-        <td>{{ order.color }}</td>
-        <td>
-          <button class="btn btn-danger" (click)="deleteCategory(order._id)">
-            Delete
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-primary" (click)="editeCategory(order)">
-            Edit
-          </button>
-        </td>
-      </tr>
-      }
-    </tbody>
-  </table>
+  <div *ngIf="formCategory" class="card p-3 mt-3">
+    <h5>{{formCategory.id ? 'Edit' : 'New'}} Category</h5>
+    <form (submit)="addCategory($event)">
+      <input
+        type="text"
+        class="form-control mb-2"
+        placeholder="Name"
+        [(ngModel)]="formCategory.name"
+        name="name"
+      />
+      <input
+        type="text"
+        class="form-control mb-2"
+        placeholder="description"
+        [(ngModel)]="formCategory.description"
+        name="description"
+      />
+      <input
+        type="text"
+        class="form-control mb-2"
+        placeholder="color"
+        [(ngModel)]="formCategory.color"
+        name="color"
+      />
+      <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-secondary" type="button" (click)="cancelForm()">
+          Cancel
+        </button>
+        <button class="btn btn-success" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
 </div>
+<table class="table table-hover custom-table table-striped">
+  <thead>
+    <tr>
+      <th>No#</th>
+      <th>CategoryName</th>
+      <th>Description</th>
+      <th>Color</th>
+    </tr>
+  </thead>
+  <tbody id="categoryTableBody">
+    @for (order of categoryList; track $index) {
+    <tr>
+      <td><strong>{{ $index + 1 }}</strong></td>
+      <td>{{ order.name }}</td>
+      <td>{{ order.description }}</td>
+      <td>
+        <span
+          class="color-badge"
+          style="background: {{ order.color }}; color: white"
+          >{{ order.color }}</span
+        >
+      </td>
+      <td>
+        <button class="btn btn-danger" (click)="deletedCategory(order._id)">
+          Delete
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-primary" (click)="editeCategory(order)">
+          Edit
+        </button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>

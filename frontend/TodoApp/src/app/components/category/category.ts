@@ -11,14 +11,15 @@ import Swal from "sweetalert2";
   styleUrl: "./category.css",
 })
 export class Category implements OnInit {
-  categoryList: CategoryId[] = [];
-  newCategory: CategoryId = {
-    _id: "",
-    name: "",
-    description: "",
-    color: "",
-    createdAt: "2022-09-09",
-  };
+  categoryList: any[] = [];
+  formCategory: any = null;
+  // newCategory: CategoryId = {
+  //   _id: "",
+  //   name: "",
+  //   description: "",
+  //   color: "",
+  //   createdAt: "2022-09-09",
+  // };
   constructor(private api: Apiservices) {}
   ngOnInit(): void {
     this.getCategoryList();
@@ -35,61 +36,65 @@ export class Category implements OnInit {
       },
     });
   }
+  openForm() {
+    this.formCategory = {
+      name: "",
+      description: "",
+      color: "",
+    };
+  }
+  cancelForm() {
+    this.formCategory = null;
+  }
+  editeCategory(DataCategory: any) {
+    this.formCategory = { ...DataCategory };
+  }
 
-  addCategory() {
-    if (!this.newCategory) {
-      return;
-    }
+  addCategory(event: any) {
+    event.preventDefault();
 
-    if (this.newCategory._id) {
+    if (this.formCategory._id) {
       this.api
-        .updateUser("/categories/" + this.newCategory._id, this.newCategory)
+        .updateUser(`/categories/${this.formCategory._id}`, this.formCategory)
         .subscribe({
-          next: (res) => {
+          next: (res: any) => {
             this.getCategoryList();
-            Swal.fire("Update Category Successfully");
-
-            this.resetCategory();
+            this.formCategory = null;
           },
-          error: (err) => {
-            console.error("Error updating category:", err);
+          error: (error: any) => {
+            console.error("Error updating category:", error);
+          },
+          complete: () => {
+            console.log("Category updated successfully");
           },
         });
     } else {
-      this.api.createTodo("/categories", this.newCategory).subscribe({
-        next: (res) => {
-          Swal.fire("Create Category Successfully");
-
+      this.api.createTodo("/categories", this.formCategory).subscribe({
+        next: (res: any) => {
           this.getCategoryList();
+          this.formCategory = null;
         },
-        error: (err) => {
-          console.error("Error creating category:", err);
+        error: (error: any) => {
+          console.error("Error creating category:", error);
+        },
+        complete: () => {
+          console.log("Category created successfully");
         },
       });
     }
   }
-
-  deleteCategory(id: string) {
-    this.api.deleteTodos("/categories/" + id).subscribe({
+  deletedCategory(id: string) {
+    this.api.deleteTodos(`/categories/${id}`).subscribe({
       next: (res: any) => {
         this.getCategoryList();
+        alert("Category deleted successfully");
       },
-      error: (err: any) => {
-        console.error("Error deleting category:", err);
+      error: (error: any) => {
+        console.error("Error deleting category:", error);
+      },
+      complete: () => {
+        console.log("Category deleted successfully");
       },
     });
-  }
-
-  editeCategory(data: any) {
-    this.newCategory = data;
-  }
-  resetCategory() {
-    this.newCategory = {
-      _id: "",
-      name: "",
-      description: "",
-      color: "",
-      createdAt: "2022-09-09",
-    };
   }
 }

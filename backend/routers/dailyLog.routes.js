@@ -5,6 +5,7 @@ const {
   createDailyLog,
   updateDailyLog,
   getDailyLogByUserId,
+  deletedDailyLogs,
 } = require("../controllers/dailyLogControllers");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -12,5 +13,6 @@ router.get("/", protect, getDailyLogs);
 router.get("/:userId", protect, getDailyLogByUserId);
 router.post("/", protect, createDailyLog);
 router.put("/:id", protect, updateDailyLog);
+router.delete("/:id", protect, deletedDailyLogs);
 
 module.exports = router;

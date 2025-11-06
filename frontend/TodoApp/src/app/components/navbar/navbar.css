@@ -62,7 +62,7 @@
 .nav-link a {
   font-size: clamp(0.8rem, 5vw, 4.5rem);
   text-decoration: none;
-  color: black;
+  color: white;
   font-family: "Climate Crisis", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -79,6 +79,12 @@
 }
 
 .nav-link a:hover {
-  background-color: rgb(255, 245, 245);
+  background: #1a1f3a;
   filter: none;
+  letter-spacing: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.navbar {
+  background: #1a1f3a;
 }

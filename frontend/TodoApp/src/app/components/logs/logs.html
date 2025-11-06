@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="d-flex justify-content-between mb-2">
+    <h3>Daily Logs</h3>
+    <button class="btn btn-primary" (click)="open()">New DailyLogs</button>
+  </div>
+  <div *ngIf="form" class="card p-3 mt-3">
+    <h5>{{form.id ? 'Edit' : 'New'}} Daily Logs</h5>
+    <form (submit)="addLogs($event)">
+      <input
+        type="text"
+        class="form-control mb-2"
+        placeholder="mood"
+        [(ngModel)]="form.mood"
+        name="mood"
+      />
+      <input
+        type="text"
+        class="form-control mb-2"
+        placeholder="topWins"
+        [(ngModel)]="form.topWins"
+        name="topWins"
+      />
+      <input
+        type="text"
+        class="form-control mb-2"
+        placeholder="notes"
+        [(ngModel)]="form.notes"
+        name="notes"
+      />
+      <input
+        type="number"
+        class="form-control mb-2"
+        placeholder="totalScore"
+        [(ngModel)]="form.totalScore"
+        name="totalScore"
+        min="1"
+      />
+      <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-secondary" type="button" (click)="cancel()">
+          Cancel
+        </button>
+        <button class="btn btn-success" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+  <table class="table table-hover custom-table table-striped">
+    <thead>
+      <tr>
+        <th>No#</th>
+        <th>Mood</th>
+        <th>notes</th>
+        <th>topWins</th>
+        <th>totalScore</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="categoryTableBody">
+      @for (order of logs; track $index) {
+      <tr>
+        <td><strong>{{ $index + 1 }}</strong></td>
+        <td>{{ order.mood }}</td>
+        <td>{{ order.notes }}</td>
+        @for (item of order.topWins; track $index) {
+        <td>{{ item }}</td>
+        }
+        <td>{{ order.totalScore }}</td>
+        <td>
+          <button class="btn btn-danger" (click)="deletedLogs(order._id)">
+            Delete
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="edit(order)">Edit</button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -5,7 +5,7 @@
     <button class="btn btn-primary" (click)="openNew()">New Users</button>
   </div>
   <div *ngIf="form" class="card p-3 mt-3">
-    <h5>{{form.id ? 'Edit' : 'New'}} Machine</h5>
+    <h5>{{form.id ? 'Edit' : 'New'}} Users</h5>
     <form (submit)="addUser($event)">
       <input
         type="text"

@@ -1,88 +1,237 @@
-@defer(on timer(2000)){
+<!-- Charts Row 1 -->
 <div class="container">
-  <table class="table table-hover custom-table table-striped">
-    <thead>
-      <tr>
-        <th>List#</th>
-        <th>TopWins</th>
-        <th>Title</th>
-        <th>Mood</th>
-        <th>Rating</th>
-        <th>Duration</th>
-        <th class="text-end">Start</th>
-        <th class="text-end">End</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let order of activitiesList; let index = index">
-        <td><strong>{{ index + 1 }}</strong></td>
-        <td>{{ order.dailyLogId?.topWins }}</td>
-        <td>{{ order.title }}</td>
-        <td>{{ order.dailyLogId?.mood }}</td>
-        <td>
+  <div class="row mb-lg-4 mb-0">
+    <div class="col-12">
+      <div class="header-card">
+        <h2><i class="bi bi-graph-up"></i> Activity Analytics Dashboard</h2>
+        <p class="text">Comprehensive insights into your activities</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row mb-lg-4 mb-0">
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="stat-card">
+        <div class="stat-icon bg-primary">
+          <i class="bi bi-calendar-check"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ totalActivities }}</h3>
+          <p>Total Activities</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="stat-card">
+        <div class="stat-icon bg-success">
+          <i class="bi bi-clock"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ totalDuration }}h</h3>
+          <p>Total Duration</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="stat-card">
+        <div class="stat-icon bg-warning">
+          <i class="bi bi-star-fill"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ averageRating }}</h3>
+          <p>Average Rating</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="stat-card">
+        <div class="stat-icon bg-info">
+          <i class="bi bi-lightning-charge"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ highEnergyCount }}</h3>
+          <p>High Energy</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-lg-8 mb-3">
+      <div class="chart-card">
+        <h5><i class="bi bi-bar-chart"></i> Activity Duration Timeline</h5>
+        <canvas id="durationChart"></canvas>
+      </div>
+    </div>
+    <div class="col-lg-4 mb-3">
+      <div class="chart-card">
+        <h5><i class="bi bi-pie-chart"></i> Energy Distribution</h5>
+        <canvas id="energyChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row 2 -->
+  <div class="row mb-lg-4 mb-0">
+    <div class="col-lg-6 mb-3">
+      <div class="chart-card">
+        <h5><i class="bi bi-graph-up"></i> Rating Trend</h5>
+        <canvas id="ratingChart"></canvas>
+      </div>
+    </div>
+    <div class="col-lg-6 mb-3">
+      <div class="chart-card">
+        <h5><i class="bi bi-speedometer2"></i> Daily Mood Score</h5>
+        <canvas id="moodScoreChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+@defer(on timer(2000)){
+<div class="container-fluid container-xl">
+  <div class="d-lg-block d-none">
+    <table class="table table-hover custom-table m-0 table-responsive">
+      <thead>
+        <tr>
+          <th>List#</th>
+          <th>Title</th>
+          <th>TopWins</th>
+          <th>Mood</th>
+          <th>Rating</th>
+          <th>Duration</th>
+          <th class="text-end">Start</th>
+          <th class="text-end">End</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of activitiesList; let index = index">
+          <td><strong>{{ index + 1 }}</strong></td>
+          <td>{{ order.title }}</td>
+          <td>{{ order.dailyLogId?.topWins }}</td>
+          <td>{{ order.dailyLogId?.mood }}</td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="{
+                            'bg-success': order.energy === 'High',
+                            'bg-danger text-dark': order.energy === 'Low',
+                            'bg-warning text-dark': order.energy === 'Full',
+                          }"
+            >
+              {{ order.energy}}
+            </span>
+          </td>
+          <td>{{ order.duration}} mins</td>
+          <td>{{ order.startTime}}</td>
+          <td>{{ order.endTime}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="d-lg-none d-block">
+  <div class="activity-list">
+    <div
+      class="activity-card"
+      *ngFor="let order of activitiesList; let i = index"
+    >
+      <div class="card-header" (click)="toggle(i)">
+        <div class="left"><strong>{{ i + 1 }}.</strong> {{ order.title }}</div>
+
+        <div class="right">
           <span
             class="badge"
             [ngClass]="{
-                            'bg-success': order.energy === 'High',
-                            'bg-warning text-dark': order.energy === 'Low',
-                          }"
+            'bg-success': order.energy === 'High',
+            'bg-warning text-dark': order.energy === 'Low'
+          }"
           >
-            {{ order.rating}}
+            {{ order.rating }}
           </span>
-        </td>
-        <td>{{ order.duration}} mins</td>
-        <td>{{ order.startTime}}</td>
-        <td>{{ order.endTime}}</td>
-      </tr>
-    </tbody>
-  </table>
+
+          <span class="arrow" [class.open]="opened[i]">▼</span>
+        </div>
+      </div>
+
+      <div class="card-body" [class.show]="opened[i]">
+        <div class="row">
+          <label>Top Wins:</label>
+          <p>{{ order.dailyLogId?.topWins }}</p>
+        </div>
+
+        <div class="row">
+          <label>Mood:</label>
+          <p>{{ order.dailyLogId?.mood }}</p>
+        </div>
+
+        <div class="row">
+          <label>Duration:</label>
+          <p>{{ order.duration }} mins</p>
+        </div>
+
+        <div class="row">
+          <label>Start:</label>
+          <p>{{ order.startTime }}</p>
+        </div>
+
+        <div class="row">
+          <label>End:</label>
+          <p>{{ order.endTime }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 }@placeholder{
 <!-- Skeleton Table -->
-<div class="container">
-  <table class="table table-hover custom-table table-striped">
-    <thead>
-      <tr>
-        <th>List#</th>
-        <th>TopWins</th>
-        <th>Title</th>
-        <th>Mood</th>
-        <th>Rating</th>
-        <th>Duration</th>
-        <th class="text-end">Start</th>
-        <th class="text-end">End</th>
-      </tr>
-    </thead>
+<div class="container-fluid container-xl">
+  <div class="d-lg-block d-none">
+    <table
+      class="table table-hover custom-table table-striped m-0 table-responsive"
+    >
+      <thead>
+        <tr>
+          <th>List#</th>
+          <th>Title</th>
+          <th>TopWins</th>
+          <th>Mood</th>
+          <th>Rating</th>
+          <th>Duration</th>
+          <th class="text-end">Start</th>
+          <th class="text-end">End</th>
+        </tr>
+      </thead>
 
-    <tbody>
-      <tr *ngFor="let i of activitiesList">
-        <td>
-          <div class="skeleton skeleton-text w-25"></div>
-        </td>
-        <td>
-          <div class="skeleton skeleton-text w-50"></div>
-        </td>
-        <td>
-          <div class="skeleton skeleton-text w-75"></div>
-        </td>
-        <td>
-          <div class="skeleton skeleton-text w-50"></div>
-        </td>
-        <td>
-          <div class="skeleton skeleton-badge"></div>
-        </td>
-        <td>
-          <div class="skeleton skeleton-text w-50"></div>
-        </td>
-        <td class="text-end">
-          <div class="skeleton skeleton-text w-50 ms-auto"></div>
-        </td>
-        <td class="text-end">
-          <div class="skeleton skeleton-text w-50 ms-auto"></div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+      <tbody>
+        <tr *ngFor="let i of activitiesList">
+          <td>
+            <div class="skeleton skeleton-text w-25"></div>
+          </td>
+          <td>
+            <div class="skeleton skeleton-text w-50"></div>
+          </td>
+          <td>
+            <div class="skeleton skeleton-text w-75"></div>
+          </td>
+          <td>
+            <div class="skeleton skeleton-text w-50"></div>
+          </td>
+          <td>
+            <div class="skeleton skeleton-badge"></div>
+          </td>
+          <td>
+            <div class="skeleton skeleton-text w-50"></div>
+          </td>
+          <td class="text-end">
+            <div class="skeleton skeleton-text w-50 ms-auto"></div>
+          </td>
+          <td class="text-end">
+            <div class="skeleton skeleton-text w-50 ms-auto"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-
 }
