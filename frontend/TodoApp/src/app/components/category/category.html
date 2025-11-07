@@ -1,75 +1,153 @@
-<div class="container">
-  <!--addUsers-->
-  <div class="d-flex justify-content-between mb-2">
-    <h3>Category</h3>
-    <button class="btn btn-primary" (click)="openForm()">New Category</button>
+<!-- Advanced Users UI Redesign (Bootstrap 5) -->
+<div class="container py-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold m-0">Category</h3>
+    <button class="btn btn-primary px-4" (click)="openForm()">
+      Create New
+    </button>
   </div>
-  <div *ngIf="formCategory" class="card p-3 mt-3">
-    <h5>{{formCategory.id ? 'Edit' : 'New'}} Category</h5>
+
+  <!-- Search + Filters Box -->
+  <div class="card shadow-sm border-0 p-3 mb-4 rounded-4 bg-light">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          class="form-control"
+          placeholder="Search Category..."
+        />
+      </div>
+      <div class="col-md-3">
+        <select
+          class="form-select"
+          [(ngModel)]="sortOrder"
+          (change)="onSortChange()"
+        >
+          <option value="asc">Sort A–Z</option>
+          <option value="desc">Sort Z–A</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div *ngIf="formCategory" class="card shadow-sm p-4 rounded-4 mb-4 border-0">
+    <h5 class="fw-bold mb-3">
+      {{ formCategory.id ? 'Edit' : 'New' }} Category
+    </h5>
     <form (submit)="addCategory($event)">
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="Name"
-        [(ngModel)]="formCategory.name"
-        name="name"
-      />
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="description"
-        [(ngModel)]="formCategory.description"
-        name="description"
-      />
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="color"
-        [(ngModel)]="formCategory.color"
-        name="color"
-      />
-      <div class="d-flex justify-content-end gap-2">
-        <button class="btn btn-secondary" type="button" (click)="cancelForm()">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Name"
+            [(ngModel)]="formCategory.name"
+            name="name"
+          />
+        </div>
+        <div class="col-md-4">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="description"
+            [(ngModel)]="formCategory.description"
+            name="description"
+          />
+        </div>
+        <div class="col-md-4">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="color"
+            [(ngModel)]="formCategory.color"
+            name="color"
+          />
+        </div>
+      </div>
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <button
+          type="button"
+          class="btn btn-outline-secondary px-4"
+          (click)="cancelForm()"
+        >
           Cancel
         </button>
-        <button class="btn btn-success" type="submit">Save</button>
+        <button type="submit" class="btn btn-success px-4">Save</button>
       </div>
     </form>
   </div>
+
+  <!-- Table Card -->
+  <div class="card shadow-sm border-0 rounded-4 p-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-bold m-0">User List</h5>
+      <select class="form-select w-auto">
+        <option>Show 10</option>
+        <option>Show 20</option>
+        <option>Show 50</option>
+      </select>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle customTable">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>CategoryName</th>
+            <th>Description</th>
+            <th>Colors</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        @defer { @if(categoryList.length !== 0){
+        <tbody>
+          @for (order of categoryList; track $index) {
+          <tr
+            [class.active]="order.status === 'active'"
+            [class.inactive]="order.status === 'inactive'"
+          >
+            <td><strong>{{ $index + 1 }}</strong></td>
+            <td>{{ order.name }}</td>
+            <td>{{ order.description }}</td>
+            <td>
+              <span
+                class="badge bg-{{ order.status === 'active' ? 'success' : 'danger' }}"
+              >
+                {{ order.color }}
+              </span>
+            </td>
+            <td class="text-center">
+              <button
+                class="btn btn-sm btn-outline-primary me-2"
+                (click)="editeCategory(order)"
+              >
+                Edit
+              </button>
+              <button
+                class="btn btn-sm btn-outline-danger"
+                (click)="deletedCategory(order._id)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+        } }@placeholder{
+        <tbody>
+          <tr>
+            <td colspan="4" class="text-center">Loading Users...</td>
+          </tr>
+        </tbody>
+        }
+      </table>
+    </div>
+  </div>
 </div>
-<table class="table table-hover custom-table table-striped">
-  <thead>
-    <tr>
-      <th>No#</th>
-      <th>CategoryName</th>
-      <th>Description</th>
-      <th>Color</th>
-    </tr>
-  </thead>
-  <tbody id="categoryTableBody">
-    @for (order of categoryList; track $index) {
-    <tr>
-      <td><strong>{{ $index + 1 }}</strong></td>
-      <td>{{ order.name }}</td>
-      <td>{{ order.description }}</td>
-      <td>
-        <span
-          class="color-badge"
-          style="background: {{ order.color }}; color: white"
-          >{{ order.color }}</span
-        >
-      </td>
-      <td>
-        <button class="btn btn-danger" (click)="deletedCategory(order._id)">
-          Delete
-        </button>
-      </td>
-      <td>
-        <button class="btn btn-primary" (click)="editeCategory(order)">
-          Edit
-        </button>
-      </td>
-    </tr>
-    }
-  </tbody>
-</table>

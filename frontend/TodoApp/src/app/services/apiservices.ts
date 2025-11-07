@@ -49,4 +49,10 @@ export class Apiservices {
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
   }
+  searchUsers(search: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/users?search=${search}`);
+  }
+  searchcategory(search: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/categories?search=${search}`);
+  }
 }

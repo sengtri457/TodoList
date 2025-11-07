@@ -1,8 +1,30 @@
 const Category = require("../models/ Category");
 
 const getCategories = async (req, res) => {
-  const categories = await Category.find();
-  res.json(categories);
+  const search = req.query.search?.trim();
+  let filter = {};
+  if (search) {
+    filter.name = { $regex: search, $options: "i" };
+  }
+  const categories = await Category.find(filter).sort({ name: 1 });
+  res.status(202).json(categories);
+};
+
+const filterCategoryColor = async (req, res) => {
+  const color = req.query.color?.trim();
+  if (!color) {
+    return res.status(400).json({ message: "Color required" });
+  }
+  // If status is "all", return everything
+  if (!color || color.toLowerCase() === "all") {
+    const categories = await Category.find().sort({ name: 1 });
+    return res.status(200).json(categories);
+  }
+
+  const categories = await Category.find({
+    status: { $regex: "^" + color + "$", $options: "i" },
+  }).sort({ name: 1 });
+  res.status(202).json(categories);
 };
 
 const createCategory = async (req, res) => {
@@ -47,4 +69,5 @@ module.exports = {
   getCategoryById,
   deleteCategory,
   updateCategory,
+  filterCategoryColor,
 };

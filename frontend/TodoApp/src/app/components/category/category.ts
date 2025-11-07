@@ -13,6 +13,9 @@ import Swal from "sweetalert2";
 export class Category implements OnInit {
   categoryList: any[] = [];
   formCategory: any = null;
+  categoryall: any[] = [];
+  searchTerm: string = "";
+  sortOrder: string = "asc"; // ✅ Default sorting A–Z
   // newCategory: CategoryId = {
   //   _id: "",
   //   name: "",
@@ -96,5 +99,33 @@ export class Category implements OnInit {
         console.log("Category deleted successfully");
       },
     });
+  }
+  onSearchChange() {
+    if (this.searchTerm === "") {
+      this.getCategoryList();
+    } else {
+      this.api.searchcategory(this.searchTerm).subscribe({
+        next: (res: any) => {
+          this.categoryList = res;
+          console.log(this.categoryList);
+        },
+        error: (error: any) => {
+          console.error("Error searching category:", error);
+        },
+        complete: () => {
+          console.log("Category searched successfully");
+        },
+      });
+    }
+  }
+  onSortChange() {
+    this.sortCategory();
+  }
+  sortCategory() {
+    if (this.sortOrder == "asc") {
+      this.categoryList.sort((a, b) => a.name.localeCompare(b.name));
+    } else {
+      this.categoryList.sort((a, b) => b.name.localeCompare(a.name));
+    }
   }
 }

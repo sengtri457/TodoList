@@ -6,9 +6,11 @@ const {
   getCategoryById,
   updateCategory,
   deleteCategory,
+  filterCategoryColor,
 } = require("../controllers/categoryContollers");
 const { protect } = require("../middlewares/authMiddleware");
 
+router.get("/color", filterCategoryColor);
 router.get("/", protect, getCategories);
 router.post("/", protect, createCategory);
 router.get("/:id", protect, getCategoryById);

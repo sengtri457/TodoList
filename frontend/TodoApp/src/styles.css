@@ -1,7 +1,7 @@
 /* Layout wrapper */
-body {
+/*body {
   background: #1a1f3a;
-}
+}*/
 
 .layout {
   display: flex;
@@ -16,7 +16,7 @@ body {
   color: white;
   padding: 20px 0;
   transition: width 0.3s ease;
-  overflow: hidden;
+  overflow: scroll;
 }
 .sidebarCollab {
   width: 240px;
@@ -25,6 +25,7 @@ body {
   padding: 20px 0;
   transition: width 0.3s ease;
   overflow: hidden;
+  height: 100vh;
 }
 
 .sidebar.closed {

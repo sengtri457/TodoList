@@ -6,9 +6,11 @@ const {
   getUserById,
   updateUser,
   deletedUser,
+  filterUsersByStatus,
 } = require("../controllers/userContollers");
 
 router.post("/", AddUser);
+router.get("/status", filterUsersByStatus);
 router.get("/", getUser);
 router.get("/:id", getUserById);
 router.delete("/:id", deletedUser);

@@ -3,6 +3,7 @@ import { Apiservices } from "../../services/apiservices";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { UserModels } from "../../models/typeModels";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-users",
@@ -12,6 +13,10 @@ import { UserModels } from "../../models/typeModels";
 })
 export class Users implements OnInit {
   usersList: any[] = [];
+  userall: any[] = [];
+  searchTerm: string = "";
+  selectStatus: string = "";
+  sortOrder: string = "asc"; // ✅ Default sorting A–Z
   newUser: UserModels = {
     username: "",
     email: "",
@@ -29,11 +34,26 @@ export class Users implements OnInit {
     this.api.getTodos("/users").subscribe({
       next: (res) => {
         this.usersList = res;
+        this.sortUser(); // ✅ Sort after filtering
       },
       error: (err) => {
         console.log("Error fetching users: " + err);
       },
     });
+  }
+
+  onSortChange() {
+    this.sortUser();
+  }
+  onsortStatusChange() {
+    this.selectUserStatus();
+  }
+  sortUser() {
+    if (this.sortOrder == "asc") {
+      this.usersList.sort((a, b) => a.username.localeCompare(b.username));
+    } else {
+      this.usersList.sort((a, b) => b.username.localeCompare(a.username));
+    }
   }
   openNew() {
     this.form = {
@@ -41,6 +61,22 @@ export class Users implements OnInit {
       email: "",
       password: "",
     };
+  }
+  onSearchChange() {
+    if (this.searchTerm.trim() === "") {
+      this.userall = this.usersList;
+      console.log(this.userall);
+      this.getUser();
+      this.sortUser();
+    } else {
+      this.api.searchUsers(this.searchTerm).subscribe({
+        next: (res: any) => {
+          this.usersList = res;
+          this.sortUser(); // ✅ Sort after filtering
+        },
+        error: (err) => console.error(err),
+      });
+    }
   }
   addUser(event: any) {
     event.preventDefault();
@@ -83,5 +119,18 @@ export class Users implements OnInit {
   }
   cancel() {
     this.form = null;
+  }
+
+  selectUserStatus() {
+    this.api.getTodos(`/users/status?status=${this.selectStatus}`).subscribe({
+      next: (res: any) => {
+        this.usersList = res;
+        console.log(this.usersList);
+        this.sortUser();
+      },
+      error: (err) => {
+        console.log("Error fetching users: " + err);
+      },
+    });
   }
 }
