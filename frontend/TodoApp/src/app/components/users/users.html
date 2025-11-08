@@ -1,5 +1,6 @@
 <!-- Advanced Users UI Redesign (Bootstrap 5) -->
-<div class="container py-4">
+<app-navbar />
+<div class="container py-4 main">
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold m-0">Users</h3>
@@ -10,30 +11,17 @@
   <div class="card shadow-sm border-0 p-3 mb-4 rounded-4 bg-light">
     <div class="row g-3">
       <div class="col-md-4">
-        <input
-          type="text"
-          [(ngModel)]="searchTerm"
-          (input)="onSearchChange()"
-          class="form-control"
-          placeholder="Search user..."
-        />
+        <input type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" class="form-control"
+          placeholder="Search user..." />
       </div>
       <div class="col-md-3">
-        <select
-          class="form-select"
-          [(ngModel)]="sortOrder"
-          (change)="onSortChange()"
-        >
+        <select class="form-select" [(ngModel)]="sortOrder" (change)="onSortChange()">
           <option value="asc">Sort A–Z</option>
           <option value="desc">Sort Z–A</option>
         </select>
       </div>
       <div class="col-md-3">
-        <select
-          class="form-select"
-          [(ngModel)]="selectStatus"
-          (change)="onsortStatusChange()"
-        >
+        <select class="form-select" [(ngModel)]="selectStatus" (change)="onsortStatusChange()">
           <option value="">All</option>
           <option value="all">All</option>
           <option value="active">Active</option>
@@ -52,49 +40,22 @@
     <form (submit)="addUser($event)">
       <div class="row g-3">
         <div class="col-md-4">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Name"
-            [(ngModel)]="form.username"
-            name="username"
-          />
+          <input type="text" class="form-control" placeholder="Name" [(ngModel)]="form.username" name="username" />
         </div>
         <div class="col-md-4">
-          <input
-            type="email"
-            class="form-control"
-            placeholder="Email"
-            [(ngModel)]="form.email"
-            name="email"
-          />
+          <input type="email" class="form-control" placeholder="Email" [(ngModel)]="form.email" name="email" />
         </div>
         <div class="col-md-4">
-          <input
-            type="password"
-            class="form-control"
-            placeholder="Password"
-            [(ngModel)]="form.password"
-            name="password"
-          />
+          <input type="password" class="form-control" placeholder="Password" [(ngModel)]="form.password"
+            name="password" />
         </div>
         <div class="col-md-4">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Status"
-            [(ngModel)]="form.status"
-            name="status"
-          />
+          <input type="text" class="form-control" placeholder="Status" [(ngModel)]="form.status" name="status" />
         </div>
       </div>
 
       <div class="d-flex justify-content-end gap-2 mt-4">
-        <button
-          type="button"
-          class="btn btn-outline-secondary px-4"
-          (click)="cancel()"
-        >
+        <button type="button" class="btn btn-outline-secondary px-4" (click)="cancel()">
           Cancel
         </button>
         <button type="submit" class="btn btn-success px-4">Save</button>
@@ -127,31 +88,20 @@
         @defer { @if(usersList.length !== 0){
         <tbody>
           @for (order of usersList; track $index) {
-          <tr
-            [class.active]="order.status === 'active'"
-            [class.inactive]="order.status === 'inactive'"
-          >
+          <tr [class.active]="order.status === 'active'" [class.inactive]="order.status === 'inactive'">
             <td><strong>{{ $index + 1 }}</strong></td>
             <td>{{ order.username }}</td>
             <td>{{ order.email }}</td>
             <td>
-              <span
-                class="badge bg-{{ order.status === 'active' ? 'success' : 'danger' }}"
-              >
+              <span class="badge bg-{{ order.status === 'active' ? 'success' : 'danger' }}">
                 {{ order.status }}
               </span>
             </td>
             <td class="text-center">
-              <button
-                class="btn btn-sm btn-outline-primary me-2"
-                (click)="editUser(order)"
-              >
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="editUser(order)">
                 Edit
               </button>
-              <button
-                class="btn btn-sm btn-outline-danger"
-                (click)="deleteUser(order._id)"
-              >
+              <button class="btn btn-sm btn-outline-danger" (click)="deleteUser(order._id)">
                 Delete
               </button>
             </td>

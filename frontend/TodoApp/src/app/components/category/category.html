@@ -1,4 +1,5 @@
 <!-- Advanced Users UI Redesign (Bootstrap 5) -->
+<app-navbar />
 <div class="container py-4">
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-4">
@@ -12,20 +13,11 @@
   <div class="card shadow-sm border-0 p-3 mb-4 rounded-4 bg-light">
     <div class="row g-3">
       <div class="col-md-4">
-        <input
-          type="text"
-          [(ngModel)]="searchTerm"
-          (input)="onSearchChange()"
-          class="form-control"
-          placeholder="Search Category..."
-        />
+        <input type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" class="form-control"
+          placeholder="Search Category..." />
       </div>
       <div class="col-md-3">
-        <select
-          class="form-select"
-          [(ngModel)]="sortOrder"
-          (change)="onSortChange()"
-        >
+        <select class="form-select" [(ngModel)]="sortOrder" (change)="onSortChange()">
           <option value="asc">Sort A–Z</option>
           <option value="desc">Sort Z–A</option>
         </select>
@@ -44,39 +36,18 @@
     <form (submit)="addCategory($event)">
       <div class="row g-3">
         <div class="col-md-4">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Name"
-            [(ngModel)]="formCategory.name"
-            name="name"
-          />
+          <input type="text" class="form-control" placeholder="Name" [(ngModel)]="formCategory.name" name="name" />
         </div>
         <div class="col-md-4">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="description"
-            [(ngModel)]="formCategory.description"
-            name="description"
-          />
+          <input type="text" class="form-control" placeholder="description" [(ngModel)]="formCategory.description"
+            name="description" />
         </div>
         <div class="col-md-4">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="color"
-            [(ngModel)]="formCategory.color"
-            name="color"
-          />
+          <input type="text" class="form-control" placeholder="color" [(ngModel)]="formCategory.color" name="color" />
         </div>
       </div>
       <div class="d-flex justify-content-end gap-2 mt-4">
-        <button
-          type="button"
-          class="btn btn-outline-secondary px-4"
-          (click)="cancelForm()"
-        >
+        <button type="button" class="btn btn-outline-secondary px-4" (click)="cancelForm()">
           Cancel
         </button>
         <button type="submit" class="btn btn-success px-4">Save</button>
@@ -109,31 +80,20 @@
         @defer { @if(categoryList.length !== 0){
         <tbody>
           @for (order of categoryList; track $index) {
-          <tr
-            [class.active]="order.status === 'active'"
-            [class.inactive]="order.status === 'inactive'"
-          >
+          <tr [class.active]="order.status === 'active'" [class.inactive]="order.status === 'inactive'">
             <td><strong>{{ $index + 1 }}</strong></td>
             <td>{{ order.name }}</td>
             <td>{{ order.description }}</td>
             <td>
-              <span
-                class="badge bg-{{ order.status === 'active' ? 'success' : 'danger' }}"
-              >
+              <span class="badge bg-{{ order.status === 'active' ? 'success' : 'danger' }}">
                 {{ order.color }}
               </span>
             </td>
             <td class="text-center">
-              <button
-                class="btn btn-sm btn-outline-primary me-2"
-                (click)="editeCategory(order)"
-              >
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="editeCategory(order)">
                 Edit
               </button>
-              <button
-                class="btn btn-sm btn-outline-danger"
-                (click)="deletedCategory(order._id)"
-              >
+              <button class="btn btn-sm btn-outline-danger" (click)="deletedCategory(order._id)">
                 Delete
               </button>
             </td>

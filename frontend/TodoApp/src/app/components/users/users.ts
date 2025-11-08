@@ -1,26 +1,27 @@
-import { Component, OnInit } from "@angular/core";
-import { Apiservices } from "../../services/apiservices";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { UserModels } from "../../models/typeModels";
-import Swal from "sweetalert2";
+import { Component, OnInit } from '@angular/core';
+import { Apiservices } from '../../services/apiservices';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { UserModels } from '../../models/typeModels';
+import Swal from 'sweetalert2';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
-  selector: "app-users",
-  imports: [CommonModule, FormsModule],
-  templateUrl: "./users.html",
-  styleUrl: "./users.css",
+  selector: 'app-users',
+  imports: [CommonModule, FormsModule, Navbar],
+  templateUrl: './users.html',
+  styleUrl: './users.css',
 })
 export class Users implements OnInit {
   usersList: any[] = [];
   userall: any[] = [];
-  searchTerm: string = "";
-  selectStatus: string = "";
-  sortOrder: string = "asc"; // ✅ Default sorting A–Z
+  searchTerm: string = '';
+  selectStatus: string = '';
+  sortOrder: string = 'asc'; // ✅ Default sorting A–Z
   newUser: UserModels = {
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
   };
   form: any = null;
 
@@ -31,13 +32,13 @@ export class Users implements OnInit {
   }
 
   getUser() {
-    this.api.getTodos("/users").subscribe({
+    this.api.getTodos('/users').subscribe({
       next: (res) => {
         this.usersList = res;
         this.sortUser(); // ✅ Sort after filtering
       },
       error: (err) => {
-        console.log("Error fetching users: " + err);
+        console.log('Error fetching users: ' + err);
       },
     });
   }
@@ -49,7 +50,7 @@ export class Users implements OnInit {
     this.selectUserStatus();
   }
   sortUser() {
-    if (this.sortOrder == "asc") {
+    if (this.sortOrder == 'asc') {
       this.usersList.sort((a, b) => a.username.localeCompare(b.username));
     } else {
       this.usersList.sort((a, b) => b.username.localeCompare(a.username));
@@ -57,13 +58,13 @@ export class Users implements OnInit {
   }
   openNew() {
     this.form = {
-      username: "",
-      email: "",
-      password: "",
+      username: '',
+      email: '',
+      password: '',
     };
   }
   onSearchChange() {
-    if (this.searchTerm.trim() === "") {
+    if (this.searchTerm.trim() === '') {
       this.userall = this.usersList;
       console.log(this.userall);
       this.getUser();
@@ -90,17 +91,17 @@ export class Users implements OnInit {
           this.form = null;
         },
         error: (err) => {
-          console.log("Error updating user: " + err);
+          console.log('Error updating user: ' + err);
         },
       });
     }
-    this.api.createTodo("/users", this.form).subscribe({
+    this.api.createTodo('/users', this.form).subscribe({
       next: (res) => {
         this.form = null;
         this.getUser();
       },
       error: (err) => {
-        console.log("Error adding user: " + err);
+        console.log('Error adding user: ' + err);
       },
     });
   }
@@ -110,7 +111,7 @@ export class Users implements OnInit {
         this.usersList = this.usersList.filter((user: any) => user._id !== id);
       },
       error: (err) => {
-        console.log("Error deleting user: " + err);
+        console.log('Error deleting user: ' + err);
       },
     });
   }
@@ -129,7 +130,7 @@ export class Users implements OnInit {
         this.sortUser();
       },
       error: (err) => {
-        console.log("Error fetching users: " + err);
+        console.log('Error fetching users: ' + err);
       },
     });
   }

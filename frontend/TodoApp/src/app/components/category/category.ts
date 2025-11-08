@@ -1,21 +1,22 @@
-import { Component, OnInit } from "@angular/core";
-import { Apiservices } from "../../services/apiservices";
-import { CategoryId } from "../../models/typeModels";
-import { FormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
-import Swal from "sweetalert2";
+import { Component, OnInit } from '@angular/core';
+import { Apiservices } from '../../services/apiservices';
+import { CategoryId } from '../../models/typeModels';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+import { Navbar } from '../navbar/navbar';
 @Component({
-  selector: "app-category",
-  imports: [FormsModule, CommonModule],
-  templateUrl: "./category.html",
-  styleUrl: "./category.css",
+  selector: 'app-category',
+  imports: [FormsModule, CommonModule, Navbar],
+  templateUrl: './category.html',
+  styleUrl: './category.css',
 })
 export class Category implements OnInit {
   categoryList: any[] = [];
   formCategory: any = null;
   categoryall: any[] = [];
-  searchTerm: string = "";
-  sortOrder: string = "asc"; // ✅ Default sorting A–Z
+  searchTerm: string = '';
+  sortOrder: string = 'asc'; // ✅ Default sorting A–Z
   // newCategory: CategoryId = {
   //   _id: "",
   //   name: "",
@@ -29,21 +30,21 @@ export class Category implements OnInit {
   }
 
   getCategoryList() {
-    this.api.getTodos("/categories").subscribe({
+    this.api.getTodos('/categories').subscribe({
       next: (res: any) => {
         this.categoryList = res;
-        console.log("Data received:", res);
+        console.log('Data received:', res);
       },
       error: (err: any) => {
-        console.error("Error fetching categories:", err);
+        console.error('Error fetching categories:', err);
       },
     });
   }
   openForm() {
     this.formCategory = {
-      name: "",
-      description: "",
-      color: "",
+      name: '',
+      description: '',
+      color: '',
     };
   }
   cancelForm() {
@@ -65,23 +66,23 @@ export class Category implements OnInit {
             this.formCategory = null;
           },
           error: (error: any) => {
-            console.error("Error updating category:", error);
+            console.error('Error updating category:', error);
           },
           complete: () => {
-            console.log("Category updated successfully");
+            console.log('Category updated successfully');
           },
         });
     } else {
-      this.api.createTodo("/categories", this.formCategory).subscribe({
+      this.api.createTodo('/categories', this.formCategory).subscribe({
         next: (res: any) => {
           this.getCategoryList();
           this.formCategory = null;
         },
         error: (error: any) => {
-          console.error("Error creating category:", error);
+          console.error('Error creating category:', error);
         },
         complete: () => {
-          console.log("Category created successfully");
+          console.log('Category created successfully');
         },
       });
     }
@@ -90,18 +91,18 @@ export class Category implements OnInit {
     this.api.deleteTodos(`/categories/${id}`).subscribe({
       next: (res: any) => {
         this.getCategoryList();
-        alert("Category deleted successfully");
+        alert('Category deleted successfully');
       },
       error: (error: any) => {
-        console.error("Error deleting category:", error);
+        console.error('Error deleting category:', error);
       },
       complete: () => {
-        console.log("Category deleted successfully");
+        console.log('Category deleted successfully');
       },
     });
   }
   onSearchChange() {
-    if (this.searchTerm === "") {
+    if (this.searchTerm === '') {
       this.getCategoryList();
     } else {
       this.api.searchcategory(this.searchTerm).subscribe({
@@ -110,10 +111,10 @@ export class Category implements OnInit {
           console.log(this.categoryList);
         },
         error: (error: any) => {
-          console.error("Error searching category:", error);
+          console.error('Error searching category:', error);
         },
         complete: () => {
-          console.log("Category searched successfully");
+          console.log('Category searched successfully');
         },
       });
     }
@@ -122,7 +123,7 @@ export class Category implements OnInit {
     this.sortCategory();
   }
   sortCategory() {
-    if (this.sortOrder == "asc") {
+    if (this.sortOrder == 'asc') {
       this.categoryList.sort((a, b) => a.name.localeCompare(b.name));
     } else {
       this.categoryList.sort((a, b) => b.name.localeCompare(a.name));

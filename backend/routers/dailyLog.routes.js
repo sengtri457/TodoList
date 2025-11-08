@@ -5,10 +5,11 @@ const {
   createDailyLog,
   updateDailyLog,
   getDailyLogByUserId,
+  sortTotalScore,
   deletedDailyLogs,
 } = require("../controllers/dailyLogControllers");
 const { protect } = require("../middlewares/authMiddleware");
-
+router.get("/sort", sortTotalScore);
 router.get("/", protect, getDailyLogs);
 router.get("/:userId", protect, getDailyLogByUserId);
 router.post("/", protect, createDailyLog);

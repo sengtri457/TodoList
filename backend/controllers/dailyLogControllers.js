@@ -1,8 +1,38 @@
 const DailyLog = require("../models/DailyLog");
 
 const getDailyLogs = async (req, res) => {
-  const logs = await DailyLog.find().sort({ date: -1 });
+  const search = req.query.search?.trim();
+
+  let filter = {};
+  if (search) {
+    filter.mood = { $regex: search, $options: "i" };
+  }
+
+  const logs = await DailyLog.find(filter).sort({ mood: 1 });
   res.json(logs);
+};
+
+const sortTotalScore = async (req, res) => {
+  try {
+    const sortType = req.query.totalScore?.trim()?.toLowerCase();
+    let sortOption = {};
+
+    if (!sortType || sortType === "all") {
+      sortOption = { totalScore: 1 };
+    } else if (sortType === "asc") {
+      sortOption = { totalScore: 1 };
+    } else if (sortType === "desc") {
+      sortOption = { totalScore: -1 };
+    } else {
+      return res.status(400).json({ error: "Invalid sort type" });
+    }
+
+    const logs = await DailyLog.find().sort(sortOption);
+
+    res.status(200).json(logs);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 const createDailyLog = async (req, res) => {
@@ -53,4 +83,5 @@ module.exports = {
   updateDailyLog,
   getDailyLogByUserId,
   deletedDailyLogs,
+  sortTotalScore,
 };
