@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { RouterLink, RouterOutlet } from "@angular/router";
 import { provideCharts } from "ng2-charts";
 import { Apiservices } from "./services/apiservices";
 import { FormsModule } from "@angular/forms";
@@ -8,7 +8,7 @@ import { Navbar } from "./components/navbar/navbar";
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet, FormsModule, CommonModule, Navbar],
+  imports: [RouterOutlet, FormsModule, CommonModule, Navbar, RouterLink],
   templateUrl: "./app.html",
   styleUrl: "./app.css",
 })

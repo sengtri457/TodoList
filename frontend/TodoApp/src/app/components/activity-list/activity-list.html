@@ -1,4 +1,5 @@
 <!-- Charts Row 1 -->
+<app-navbar />
 <div class="container">
   <div class="row mb-lg-4 mb-0">
     <div class="col-12">
@@ -88,6 +89,39 @@
   </div>
 </div>
 @defer(on timer(2000)){
+<!-- Search + Filters Box -->
+<div class="container">
+  <div class="card shadow-sm border-0 p-3 mb-4 rounded-4 bg-light">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          class="form-control"
+          placeholder="Search Activities..."
+        />
+      </div>
+      <div class="col-md-3">
+        <select class="form-select">
+          <option value="asc">Sort A–Z</option>
+          <option value="desc">Sort Z–A</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select class="form-select">
+          <option value="">All</option>
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100">Search</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="container-fluid container-xl">
   <div class="d-lg-block d-none">
     <table class="table table-hover custom-table m-0 table-responsive">
@@ -122,8 +156,20 @@
             </span>
           </td>
           <td>{{ order.duration}} mins</td>
-          <td>{{ order.startTime}}</td>
-          <td>{{ order.endTime}}</td>
+          <td>
+            @if(order.startTime >= "12:00"){
+            <p class="m-0">{{ order.startTime }} pm</p>
+            }@else{
+            <p class="m-0">{{ order.startTime }} am</p>
+            }
+          </td>
+          <td>
+            @if(order.endTime >= "12:00"){
+            <p class="m-0">{{ order.endTime }} pm</p>
+            }@else{
+            <p class="m-0">{{ order.endTime }} am</p>
+            }
+          </td>
         </tr>
       </tbody>
     </table>
@@ -171,9 +217,12 @@
 
         <div class="row">
           <label>Start:</label>
-          <p>{{ order.startTime }}</p>
+          @if(order.startTime >= "12:00"){
+          <p>{{ order.startTime }}pm</p>
+          }@else{
+          <p>{{ order.startTime }} am</p>
+          }
         </div>
-
         <div class="row">
           <label>End:</label>
           <p>{{ order.endTime }}</p>

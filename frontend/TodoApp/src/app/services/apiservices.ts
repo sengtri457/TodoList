@@ -1,11 +1,11 @@
-import { Injectable, signal } from '@angular/core';
-import { environment } from '../enviroments/enviroment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserModels } from '../models/typeModels';
-import { Observable } from 'rxjs';
+import { Injectable, signal } from "@angular/core";
+import { environment } from "../enviroments/enviroment";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { UserModels } from "../models/typeModels";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class Apiservices {
   private apiUrl = environment.apiBase;
@@ -13,14 +13,14 @@ export class Apiservices {
   constructor(private http: HttpClient) {}
 
   getTodos(url: String): Observable<any> {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
     return this.http.get<any>(this.apiUrl + url, { headers });
   }
   createTodo(url: string, todo: any): Observable<any> {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
@@ -57,5 +57,8 @@ export class Apiservices {
   }
   searchDailyLogs(search: string) {
     return this.http.get<any[]>(`${this.apiUrl}/logs?search=${search}`);
+  }
+  serachActivitiesByTitle(search: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/activities?search=${search}`);
   }
 }

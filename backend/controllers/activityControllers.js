@@ -16,7 +16,12 @@ const updateDailyScore = async (dailyLogId) => {
 
 const getActivities = async (req, res) => {
   try {
-    const activities = await Activity.find()
+    const search = req.query.search?.trim();
+    let filter = {};
+    if (search) {
+      filter.title = { $regex: search, $options: "i" };
+    }
+    const activities = await Activity.find(filter)
       .populate("categoryId")
       .populate("dailyLogId");
     res.json(activities);

@@ -5,6 +5,7 @@ import { FormsModule } from "@angular/forms";
 import Swal from "sweetalert2";
 import { ActivityList } from "../activity-list/activity-list";
 import { Navbar } from "../navbar/navbar";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-activities",
   imports: [CommonModule, FormsModule, ActivityList, Navbar],
@@ -18,7 +19,7 @@ export class Activities implements OnInit {
 
   selectedUser: any;
   selectedCategory: any;
-
+  activitesData: any[] = [];
   createdDailyLog: any;
   createdActivity: any;
 
@@ -41,7 +42,10 @@ export class Activities implements OnInit {
     note: "",
   };
 
-  constructor(private api: Apiservices) {}
+  constructor(
+    private api: Apiservices,
+    private router: Router,
+  ) {}
   isLoading = true;
 
   ngOnInit() {
@@ -141,6 +145,7 @@ export class Activities implements OnInit {
           this.alertOrder();
           setTimeout(() => {
             this.createdActivity = res.activity || res;
+            this.router.navigateByUrl("/activityList");
           }, 2000);
           this.step++;
           setTimeout(() => {
@@ -158,6 +163,7 @@ export class Activities implements OnInit {
   prevStep() {
     if (this.step > 1) this.step--;
   }
+
   resetProcess() {
     this.step = 1;
     this.selectedUser = null;
@@ -185,7 +191,7 @@ export class Activities implements OnInit {
     let timerInterval: any;
 
     Swal.fire({
-      title: "Your Orders!",
+      title: "Activites Created!",
       html: "please Wait in <b></b> milliseconds.",
       timer: 2000,
       timerProgressBar: true,

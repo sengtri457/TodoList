@@ -4,9 +4,10 @@ import { Root } from "../../models/typeModels";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { Chart, ChartConfiguration, registerables } from "chart.js";
+import { Navbar } from "../navbar/navbar";
 @Component({
   selector: "app-activity-list",
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, Navbar],
   templateUrl: "./activity-list.html",
   styleUrl: "./activity-list.css",
 })
@@ -16,7 +17,7 @@ export class ActivityList implements OnInit {
   totalDuration = 0;
   averageRating = 0;
   highEnergyCount = 0;
-
+  searchTerm = "";
   constructor(private api: Apiservices) {}
   opened: boolean[] = [];
 
@@ -26,6 +27,25 @@ export class ActivityList implements OnInit {
 
   ngOnInit(): void {
     this.getActivities();
+  }
+
+  onSearchChange() {
+    if (this.searchTerm === "") {
+      this.getActivities();
+    }
+    this.api.serachActivitiesByTitle(this.searchTerm).subscribe({
+      next: (res: any) => {
+        this.activitiesList = res;
+        this.calculateStats();
+        this.initializeCharts();
+      },
+      error: (err) => {
+        console.log("Error ", err);
+      },
+      complete: () => {
+        console.log("Completed");
+      },
+    });
   }
 
   getActivities() {

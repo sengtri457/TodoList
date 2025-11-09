@@ -3,13 +3,11 @@
   background: #1a1f3a;
 } */
 
-
 .layout {
   display: flex;
   height: 100vh;
   background: #f5f5f5;
 }
-
 
 /* Sidebar */
 .sidebar {
@@ -65,12 +63,13 @@
   color: #ddd;
   font-size: 15px;
   transition: background 0.2s;
+  transition: all 0.4s ease;
 }
 
 .menu li:hover {
-  background: #333;
+  background: linear-gradient(135deg, #0a0e27 0%, #0d1128 100%);
+  letter-spacing: 2px;
 }
-
 .menu .active {
   background: #007bff;
   color: white;
