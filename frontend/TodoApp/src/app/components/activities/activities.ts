@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { ActivityList } from "../activity-list/activity-list";
 import { Navbar } from "../navbar/navbar";
 import { Router } from "@angular/router";
+import { TelegramServices } from "../../services/telegram-services";
 @Component({
   selector: "app-activities",
   imports: [CommonModule, FormsModule, ActivityList, Navbar],
@@ -19,7 +20,6 @@ export class Activities implements OnInit {
 
   selectedUser: any;
   selectedCategory: any;
-  activitesData: any[] = [];
   createdDailyLog: any;
   createdActivity: any;
 
@@ -45,6 +45,7 @@ export class Activities implements OnInit {
   constructor(
     private api: Apiservices,
     private router: Router,
+    private telegram: TelegramServices,
   ) {}
   isLoading = true;
 
@@ -58,6 +59,12 @@ export class Activities implements OnInit {
 
   loadUsers() {
     this.api.getTodos("/users").subscribe((res) => (this.users = res));
+  }
+
+  testBot() {
+    this.telegram.sendMessage("Hello").subscribe((res) => {
+      console.log(res);
+    });
   }
 
   nextStep() {
@@ -138,14 +145,29 @@ export class Activities implements OnInit {
         rating: this.activityForm.rating,
         note: this.activityForm.note,
       };
-
+      const message = `
+      📌 Activity: ${payload.title}
+      🕒 Time: ${payload.startTime} - ${payload.endTime} (${payload.duration} min)
+      💪 Energy: ${payload.energy}
+      ⭐ Rating: ${payload.rating}
+      📝 Note: ${payload.note}
+      `;
       this.api.createTodo("/activities", payload).subscribe({
         next: (res) => {
           console.log("Created Activity:", this.createdActivity);
           this.alertOrder();
           setTimeout(() => {
             this.createdActivity = res.activity || res;
-            this.router.navigateByUrl("/activityList");
+            console.log(payload);
+            this.telegram.sendMessage(message).subscribe({
+              next: () => {
+                this.router.navigateByUrl("/activityList");
+              },
+              error: (err) => {
+                console.error("Error sending Telegram message:", err);
+                alert("Failed to send Telegram message.");
+              },
+            });
           }, 2000);
           this.step++;
           setTimeout(() => {
