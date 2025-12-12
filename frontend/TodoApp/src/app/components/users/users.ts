@@ -35,7 +35,7 @@ export class Users implements OnInit {
     this.api.getTodos('/users').subscribe({
       next: (res) => {
         this.usersList = res;
-        this.sortUser(); // ✅ Sort after filtering
+        this.sortUser();
       },
       error: (err) => {
         console.log('Error fetching users: ' + err);

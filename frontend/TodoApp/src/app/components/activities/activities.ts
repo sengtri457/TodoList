@@ -3,13 +3,12 @@ import { Apiservices } from "../../services/apiservices";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import Swal from "sweetalert2";
-import { ActivityList } from "../activity-list/activity-list";
 import { Navbar } from "../navbar/navbar";
 import { Router } from "@angular/router";
 import { TelegramServices } from "../../services/telegram-services";
 @Component({
   selector: "app-activities",
-  imports: [CommonModule, FormsModule, ActivityList, Navbar],
+  imports: [CommonModule, FormsModule, Navbar],
   templateUrl: "./activities.html",
   styleUrl: "./activities.css",
 })
